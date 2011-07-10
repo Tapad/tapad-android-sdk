@@ -1,6 +1,5 @@
 package com.tapad.tracking;
 
-import android.app.Application;
 import android.content.Context;
 import android.preference.PreferenceManager;
 
