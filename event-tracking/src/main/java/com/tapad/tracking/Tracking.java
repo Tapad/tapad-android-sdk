@@ -32,7 +32,6 @@ public class Tracking {
 
         if (firstRun) {
             service.onEvent("install");
-            service.onEvent("first-run");
         }
     }
 
