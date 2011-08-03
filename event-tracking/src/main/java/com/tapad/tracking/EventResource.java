@@ -28,7 +28,7 @@ class EventResource {
     private static final String RESOURCE_URL = "http://tap.tapad.com/apps/action";
     private static final String PARAM_APP_ID = "app_id";
     private static final String PARAM_DEVICE_ID = "session_id";
-    private static final String PARAM_EVENT_ID = "event_id";
+    private static final String PARAM_EVENT_ID = "action_id";
 
     private DefaultHttpClient client;
 
