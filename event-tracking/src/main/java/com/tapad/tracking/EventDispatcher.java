@@ -47,7 +47,7 @@ class EventDispatcher {
             Event event;
             while ((event = queue.poll()) != null) {
                 try {
-                    Logging.info(TAG, "Posting event  " + event);
+                    Logging.info(TAG, "Posting event " + event);
 
                     resource.post(event);
                 } catch (Exception e)  {
