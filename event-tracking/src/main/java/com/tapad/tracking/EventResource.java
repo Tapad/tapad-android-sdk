@@ -1,5 +1,6 @@
 package com.tapad.tracking;
 
+import android.util.Log;
 import org.apache.http.HttpResponse;
 import org.apache.http.HttpVersion;
 import org.apache.http.NameValuePair;
@@ -25,9 +26,9 @@ import java.util.List;
  * Single-threaded access only.
  */
 class EventResource {
-    private static final String RESOURCE_URL = "http://tap.tapad.com/apps/action";
+    private static final String RESOURCE_URL = "http://analytics.tapad.com/app/event";
     private static final String PARAM_APP_ID = "app_id";
-    private static final String PARAM_DEVICE_ID = "session_id";
+    private static final String PARAM_DEVICE_ID = "device_id";
     private static final String PARAM_EVENT_ID = "action_id";
 
     private DefaultHttpClient client;
