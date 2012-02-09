@@ -15,7 +15,8 @@ public class Tracking {
 
     /**
      * Initializes the tracking API using the app package name as the id.
-     * One of the initalization functions must be called before TrackingService.get().
+     *
+     * One of the initialization functions must be called before TrackingService.get().
      *
      * @param context
      */
@@ -25,9 +26,11 @@ public class Tracking {
 
 
     /**
-     * Initializes the tracking API using the supplied value as the id.  If the supplied value is null
-     * or consist only of white space, then the app package name is used as the id.
-     * One of the initalization functions must be called before TrackingService.get().
+     * Initializes the tracking API using the supplied value as the application id.  If the
+     * supplied value is null or consist only of white space, then the app package name is
+     * used.
+     *
+     * One of the initialization functions must be called before TrackingService.get().
      *
      * @param context
      * @param appId the application identifier
