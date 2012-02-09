@@ -14,7 +14,7 @@ public class MainActivity extends Activity
         super.onCreate(savedInstanceState);
         setContentView(R.layout.main);
 
-        Tracking.init(this);
+        Tracking.init(this, "AndroidEventSDK_testapp");
 
         Button custom = (Button) findViewById(R.id.custom_event);
         custom.setOnClickListener(new View.OnClickListener() {

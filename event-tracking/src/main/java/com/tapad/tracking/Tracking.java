@@ -14,11 +14,28 @@ public class Tracking {
     private static TrackingService service = null;
 
     /**
-     * Initializes the tracking API. Must be called before TrackingService.get().
+     * Initializes the tracking API using the app package name as the id.
+     * One of the initalization functions must be called before TrackingService.get().
+     *
      * @param context
      */
     public static void init(Context context) {
-        String appId = context.getApplicationContext().getPackageName();
+        init(context, null);
+    }
+
+
+    /**
+     * Initializes the tracking API using the supplied value as the id.  If the supplied value is null
+     * or consist only of white space, then the app package name is used as the id.
+     * One of the initalization functions must be called before TrackingService.get().
+     *
+     * @param context
+     * @param appId the application identifier
+     */
+    public static void init(Context context, String appId) {
+        if (appId == null || appId.trim().length() == 0) {
+          appId = context.getApplicationContext().getPackageName();
+        }
 
         String deviceId = PreferenceManager.getDefaultSharedPreferences(context).getString(PREF_TAPAD_DEVICE_ID, null);
         boolean firstRun = deviceId == null;
