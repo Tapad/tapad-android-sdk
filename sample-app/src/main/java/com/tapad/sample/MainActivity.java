@@ -14,6 +14,7 @@ public class MainActivity extends Activity
         super.onCreate(savedInstanceState);
         setContentView(R.layout.main);
 
+        // Or use Tracking.init(this) to use the application package id
         Tracking.init(this, "AndroidEventSDK_testapp");
 
         Button custom = (Button) findViewById(R.id.custom_event);
