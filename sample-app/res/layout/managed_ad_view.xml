@@ -1,32 +1,36 @@
 <?xml version="1.0" encoding="utf-8"?>
+
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
               android:orientation="vertical"
               android:layout_width="fill_parent"
               android:layout_height="fill_parent"
+              android:background="#ffffff"
         >
+
     <TextView
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:text="Tapad Event Tracking"
+            android:text="320x50 Below. Gone until success load."
             />
 
-    <Button android:id="@+id/custom_event"
-            android:text="Send custom event"
+    <com.tapad.adserving.ui.AdView
+            android:id="@+id/ad_view_top"
+            android:layout_height="51dip"
             android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            />
+            android:visibility="gone"
+    />
 
-    <Button android:id="@+id/pull_ad_markup"
-            android:text="Get ad markup"
+    <TextView
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
+            android:text="300x250 Below. Gone until success load."
             />
-
-    <Button android:id="@+id/managed_ad_view"
-            android:text="Show managed ad view"
+    <com.tapad.adserving.ui.AdView
+            android:id="@+id/ad_view_bottom"
+            android:layout_height="250dip"
             android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
+            android:gravity="bottom"
+            android:visibility="gone"
             />
 
 </LinearLayout>
-

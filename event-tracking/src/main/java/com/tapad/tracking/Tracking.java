@@ -54,7 +54,6 @@ public class Tracking {
         }
     }
 
-
     public static TrackingService get() {
         if (service == null) throw new IllegalStateException("Please call Tracking.init(context) to initialize the API first!");
         return service;

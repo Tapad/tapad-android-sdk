@@ -14,12 +14,12 @@
             <dependency>
                 <groupId>com.google.android</groupId>
                 <artifactId>android</artifactId>
-                <version>2.3.3</version>
+                <version>1.6_r2</version>
             </dependency>
             <dependency>
                 <groupId>com.google.android</groupId>
                 <artifactId>android-test</artifactId>
-                <version>2.3.3</version>
+                <version>1.6_r2</version>
             </dependency>
         </dependencies>
     </dependencyManagement>
@@ -44,6 +44,7 @@
     </build>
     <modules>
         <module>event-tracking</module>
+        <module>ad-serving</module>
         <module>sample-app</module>
     </modules>
 </project>

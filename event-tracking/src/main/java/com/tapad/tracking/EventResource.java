@@ -1,6 +1,7 @@
 package com.tapad.tracking;
 
 import android.util.Log;
+import com.tapad.util.HttpClientUtil;
 import org.apache.http.HttpResponse;
 import org.apache.http.HttpVersion;
 import org.apache.http.NameValuePair;
@@ -45,21 +46,7 @@ class EventResource {
     EventResource(String appId, String deviceId) {
         this.appId = appId;
         this.deviceId = deviceId;
-
-        // Event occur infrequently, so we use a vanilla single-threaded
-        // client.
-        HttpParams params = new BasicHttpParams();
-        HttpProtocolParams.setVersion(params, HttpVersion.HTTP_1_1);
-        HttpProtocolParams.setContentCharset(params, "UTF-8");
-        HttpProtocolParams.setUserAgent(params, "Android/TapadEventAPI/1.0");
-        client = new DefaultHttpClient(params);
-
-        // Keep connections alive for 5 seconds.
-        client.setKeepAliveStrategy(new ConnectionKeepAliveStrategy() {
-            public long getKeepAliveDuration(HttpResponse httpResponse, HttpContext httpContext) {
-                return 5000;
-            }
-        });
+        this.client = HttpClientUtil.createClient("Android/TapadEventAPI/1.0");
     }
 
     protected void post(Event e) throws IOException {
