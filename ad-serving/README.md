@@ -89,7 +89,6 @@ AdServing.get().requestAd(new AdRequest(placementId, size) {
 }
 ```
 
-
 ## How to include the Tapad code in your project
 The source code of our SDK is freely available here on Github, so you are free to include the code however you prefer: 
 
@@ -101,9 +100,23 @@ For the latter:
 
 
 ```xml
-<dependency>
-  <groupId>com.tapad.android</groupId>
-  <artifactId>ad-serving</artifactId>
-  <version>1.0.0</version>
-</dependency>
+<dependencies>
+  ...
+  <dependency>
+    <groupId>com.tapad.android</groupId>
+    <artifactId>ad-serving</artifactId>
+    <version>1.0.0</version>
+  </dependency>
+  ...
+</dependencies>
+<repositories>
+  ...
+  <repository>
+      <id>tapad-android</id>
+      <releases/>
+      <url>https://github.com/Tapad/tapad-android-sdk/tree/gh-pages/repository/releases</url>
+  </repository>
+  ...
+</repositories>
+
 ```        
