@@ -1,4 +1,4 @@
-package com.tapad.tracking;
+package com.tapad.util;
 
 import android.util.Log;
 

@@ -1,6 +1,7 @@
 package com.tapad.tracking;
 
-import java.io.IOException;
+import com.tapad.util.Logging;
+
 import java.util.concurrent.ConcurrentLinkedQueue;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;

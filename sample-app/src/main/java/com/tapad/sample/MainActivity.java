@@ -9,7 +9,7 @@ import com.tapad.adserving.AdRequest;
 import com.tapad.adserving.AdResponse;
 import com.tapad.adserving.AdServing;
 import com.tapad.adserving.AdSize;
-import com.tapad.tracking.Logging;
+import com.tapad.util.Logging;
 import com.tapad.tracking.Tracking;
 
 public class MainActivity extends Activity {

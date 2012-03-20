@@ -1,6 +1,6 @@
 package com.tapad.adserving;
 
-import com.tapad.tracking.Logging;
+import com.tapad.util.Logging;
 
 import java.util.concurrent.ConcurrentLinkedQueue;
 import java.util.concurrent.ExecutorService;
