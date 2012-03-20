@@ -3,7 +3,7 @@ package com.tapad.util;
 import android.util.Log;
 
 public class Logging {
-    private static final boolean enabled = false;
+    private static final boolean enabled = true;
 
     public static void info(String tag, String message) {
         if (enabled) Log.i(tag, message);

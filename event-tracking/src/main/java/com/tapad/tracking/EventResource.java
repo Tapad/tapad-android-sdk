@@ -21,8 +21,9 @@ import java.util.List;
 class EventResource {
     private static final String RESOURCE_URL = "https://analytics.tapad.com/app/event";
     private static final String PARAM_APP_ID = "app_id";
-    private static final String PARAM_DEVICE_ID = "device_id";
-    private static final String PARAM_EVENT_ID = "action_id";
+    private static final String PARAM_DEVICE_ID = "session_id";
+    private static final String PARAM_EVENT_ID = "event_id";
+    private static final String PARAM_EXTRA_PARAMS = "extra_params";
 
     private DefaultHttpClient client;
 
@@ -46,6 +47,8 @@ class EventResource {
         params.add(new BasicNameValuePair(PARAM_APP_ID, appId));
         params.add(new BasicNameValuePair(PARAM_DEVICE_ID, deviceId.get()));
         params.add(new BasicNameValuePair(PARAM_EVENT_ID, e.getId()));
+        if (e.getExtraParameters() != null)
+            params.add(new BasicNameValuePair(PARAM_EXTRA_PARAMS, e.getExtraParameters()));
         String query = URLEncodedUtils.format(params, "UTF-8");
 
         String uri = RESOURCE_URL + "?" + query;

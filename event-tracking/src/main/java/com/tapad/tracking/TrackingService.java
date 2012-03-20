@@ -23,4 +23,15 @@ public interface TrackingService {
      * @param eventId the id of the event, either one of the predefined constants, or developer specific ones
      */
     void onEvent(String eventId);
+
+
+    /**
+     * Registers the specified event with the Tapad event tracking service. The
+     * actual event dispatch is done asynchronously, so this method will never
+     * block.
+     *
+     * @param eventId the id of the event, either one of the predefined constants, or developer specific ones
+     * @param extraParameters an opaque string og extra parameters that will be sent til the event tracking service
+     */
+    void onEvent(String eventId, String extraParameters);
 }

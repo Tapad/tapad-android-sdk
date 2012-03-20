@@ -14,4 +14,8 @@ class TrackingServiceImpl implements TrackingService {
     public void onEvent(String eventId) {
         dispatcher.dispatch(new Event(eventId));
     }
+
+    public void onEvent(String eventId, String extraParameters) {
+        dispatcher.dispatch(new Event(eventId, extraParameters));
+    }
 }

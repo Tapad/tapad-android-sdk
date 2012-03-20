@@ -52,7 +52,7 @@ public class Tracking {
         synchronized(Tracking.class) {
             if (service == null) {
                 if (appId == null || appId.trim().length() == 0) {
-                  appId = context.getApplicationContext().getPackageName();
+                    appId = context.getApplicationContext().getPackageName();
                 }
 
                 deviceId = PreferenceManager.getDefaultSharedPreferences(context).getString(PREF_TAPAD_DEVICE_ID, null);
