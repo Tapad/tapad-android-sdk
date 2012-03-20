@@ -3,11 +3,12 @@
     <modelVersion>4.0.0</modelVersion>
     <groupId>com.tapad.android</groupId>
     <artifactId>sdk-parent</artifactId>
-    <version>1.0.0-SNAPSHOT</version>
+    <version>${buildVersion}</version>
     <packaging>pom</packaging>
     <name>Tapad Android SDK parent project</name>
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <buildVersion>1.0.0-SNAPSHOT</buildVersion>
     </properties>
     <dependencyManagement>
         <dependencies>

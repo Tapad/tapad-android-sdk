@@ -4,11 +4,10 @@
     <parent>
         <groupId>com.tapad.android</groupId>
         <artifactId>sdk-parent</artifactId>
-        <version>1.0.0-SNAPSHOT</version>
+        <version>${buildVersion}</version>
     </parent>
     <groupId>com.tapad.android</groupId>
     <artifactId>event-tracking</artifactId>
-    <version>1.0.0-SNAPSHOT</version>
     <packaging>jar</packaging>
     <name>Tapad Android Event Tracking SDK</name>
     <description>Provides an SDK for install attribution and event tracking</description>

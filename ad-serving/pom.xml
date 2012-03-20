@@ -4,13 +4,12 @@
     <parent>
         <groupId>com.tapad.android</groupId>
         <artifactId>sdk-parent</artifactId>
-        <version>1.0.0-SNAPSHOT</version>
+        <version>${buildVersion}</version>
     </parent>
     <groupId>com.tapad.android</groupId>
     <artifactId>ad-serving</artifactId>
-    <version>1.0.0-SNAPSHOT</version>
     <packaging>jar</packaging>
-    <name>Tapad Ad Serving SDK</name>
+    <name>Tapad Android Ad Serving SDK</name>
     <description>Provides an SDK for ad serving</description>
     <dependencies>
         <dependency>
