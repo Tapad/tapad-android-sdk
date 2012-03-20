@@ -47,4 +47,11 @@
         <module>ad-serving</module>
         <module>sample-app</module>
     </modules>
+
+    <distributionManagement>
+        <repository>
+            <id>gh-pages</id>
+            <url>file:///${basedir}/../tapad-android-sdk-pages/repository/releases</url>
+        </repository>
+    </distributionManagement>
 </project>
