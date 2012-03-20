@@ -3,6 +3,7 @@ package com.tapad.adserving;
 import android.content.Context;
 import android.preference.PreferenceManager;
 import android.webkit.WebView;
+import com.tapad.tracking.Tracking;
 
 import java.util.UUID;
 
@@ -29,14 +30,8 @@ public class AdServing {
         String userAgent = wv.getSettings().getUserAgentString();
         wv.destroy();
 
-        String deviceId = PreferenceManager.getDefaultSharedPreferences(context).getString(PREF_TAPAD_DEVICE_ID, null);
-        boolean firstRun = deviceId == null;
-        if (firstRun) {
-            deviceId = UUID.randomUUID().toString();
-            PreferenceManager.getDefaultSharedPreferences(context).edit().putString(PREF_TAPAD_DEVICE_ID, deviceId).commit();
-        }
-
-        AdResource resource = new AdResource(deviceId, publisherId, propertyId, userAgent);
+        Tracking.init(context, propertyId);
+        AdResource resource = new AdResource(Tracking.getDeviceId(), publisherId, propertyId, userAgent);
         service = new AdServingServiceImpl(new AdRequestDispatcher(resource, 2));
     }
 

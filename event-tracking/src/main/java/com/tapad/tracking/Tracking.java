@@ -12,6 +12,7 @@ import java.util.UUID;
 public class Tracking {
     private static final String PREF_TAPAD_DEVICE_ID = "_tapad_device_id";
     private static TrackingService service = null;
+    private static String deviceId;
 
     /**
      * Initializes the tracking API using the app package name as the id.
@@ -40,7 +41,7 @@ public class Tracking {
           appId = context.getApplicationContext().getPackageName();
         }
 
-        String deviceId = PreferenceManager.getDefaultSharedPreferences(context).getString(PREF_TAPAD_DEVICE_ID, null);
+        deviceId = PreferenceManager.getDefaultSharedPreferences(context).getString(PREF_TAPAD_DEVICE_ID, null);
         boolean firstRun = deviceId == null;
         if (firstRun) {
             deviceId = UUID.randomUUID().toString();
@@ -53,10 +54,15 @@ public class Tracking {
             service.onEvent("install");
         }
     }
+    
+    public static String getDeviceId() {
+        if (service == null) throw new IllegalStateException("Please call Tracking.init(context) to initialize the API first!");
+        else return deviceId;
+    }
 
     public static TrackingService get() {
         if (service == null) throw new IllegalStateException("Please call Tracking.init(context) to initialize the API first!");
-        return service;
+        else return service;
     }
 
 }
