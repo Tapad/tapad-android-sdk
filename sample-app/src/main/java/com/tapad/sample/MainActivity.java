@@ -18,9 +18,9 @@ public class MainActivity extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.main);
 
-        // Or use Tracking.init(this) to use the application package id
-        Tracking.init(this, "AndroidEventSDK_testapp");
-        AdServing.init(this, "18", null);
+        AdServing.init(this, SampleConstants.PUBLISHER_ID, SampleConstants.PROPERTY_ID);
+        // AdServing.init calls the Tracking init code. If you are just using the Tracking API,
+        // just call Tracking.init(this) instead of the above.
 
         Button custom = (Button) findViewById(R.id.custom_event);
         custom.setOnClickListener(new View.OnClickListener() {
@@ -33,17 +33,7 @@ public class MainActivity extends Activity {
         adMarkup.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(final View view) {
-                AdServing.get().requestAd(new AdRequest("110", AdSize.S320x50) {
-                    @Override
-                    protected void onResponse(final AdResponse response) {
-                        view.post(new Runnable() {
-                            @Override
-                            public void run() {
-                                Logging.info("ADS", response.getMarkup());
-                            }
-                        });
-                    }
-                });
+                startActivity(new Intent(MainActivity.this, ManualMarkupActivity.class));
             }
         });
 

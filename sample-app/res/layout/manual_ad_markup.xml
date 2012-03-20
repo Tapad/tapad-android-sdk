@@ -4,28 +4,18 @@
               android:layout_width="fill_parent"
               android:layout_height="fill_parent"
         >
-    <TextView
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:text="Tapad Event Tracking"
-            />
-
-    <Button android:id="@+id/custom_event"
-            android:text="Send custom event"
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            />
 
     <Button android:id="@+id/pull_ad_markup"
-            android:text="Show manual markup view"
+            android:text="Get ad markup"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             />
 
-    <Button android:id="@+id/managed_ad_view"
-            android:text="Show managed ad view"
+    <TextView
+            android:id="@+id/markup"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
+            android:text="No markup loaded"
             />
 
 </LinearLayout>

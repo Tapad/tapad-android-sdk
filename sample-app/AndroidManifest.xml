@@ -13,5 +13,6 @@
             </intent-filter>
         </activity>
         <activity android:name=".AdViewActivity" android:label="Ad with managed view"/>
+        <activity android:name=".ManualMarkupActivity" android:label="Manual markup management"/>
     </application>
 </manifest> 
