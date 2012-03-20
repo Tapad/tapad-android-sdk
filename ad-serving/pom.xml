@@ -35,7 +35,7 @@
     <distributionManagement>
         <repository>
             <id>gh-pages</id>
-            <url>file:///${basedir}/../tapad-android-sdk-pages/repository/releases</url>
+            <url>file:///${basedir}/../../tapad-android-sdk-pages/repository/releases</url>
         </repository>
     </distributionManagement>
 </project>
