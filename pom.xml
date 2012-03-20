@@ -8,7 +8,7 @@
     <name>Tapad Android SDK parent project</name>
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <buildVersion>1.0.0-SNAPSHOT</buildVersion>
+        <buildVersion>1.0.0</buildVersion>
     </properties>
     <dependencyManagement>
         <dependencies>
