@@ -37,7 +37,7 @@ The simplest integration approach is to add an SDK managed WebView to your layou
 ```
 
 ### Add onResume and onPause event hooks to your Activity
-To make sure that the view start refreshing ads when the activity becomes active and stops when the activity is passivated, add the following code to the activity containing the `AdView`:
+To make sure that the view starts refreshing ads when the activity becomes active and stops when the activity is paused, add the following code to the activity containing the `AdView`:
 
 ```java
     @Override
@@ -58,7 +58,7 @@ To make sure that the view start refreshing ads when the activity becomes active
 
 ### Customizing the AdView
 
-Note that we're hiding the `AdView` by default. The view will automatically show itself when an ad is available and hide itself if not (e.g, network connectivity issues). This behaviour can be customized by overriding the `onMarkupLoaded()` and `onNoMarkupAvailable()` methods. If you need more advanced customization, you can, of course, build your own based on it's source.
+Note that we're hiding the `AdView` by default. The view will automatically show itself when an ad is available and hide itself if not (e.g, network connectivity issues). This behaviour can be customized by overriding the `onMarkupLoaded()` and `onNoMarkupAvailable()` methods. If you need more advanced customization, you can, of course, build your own based on the source of those methods.
 
 
 # Using your own WebViews
