@@ -7,7 +7,7 @@ import android.view.View;
 import android.widget.Button;
 import com.tapad.adserving.AdRequest;
 import com.tapad.adserving.AdResponse;
-import com.tapad.adserving.AdService;
+import com.tapad.adserving.AdServing;
 import com.tapad.adserving.AdSize;
 import com.tapad.tracking.Logging;
 import com.tapad.tracking.Tracking;
@@ -20,7 +20,7 @@ public class MainActivity extends Activity {
 
         // Or use Tracking.init(this) to use the application package id
         Tracking.init(this, "AndroidEventSDK_testapp");
-        AdService.init(this, "18", null);
+        AdServing.init(this, "18", null);
 
         Button custom = (Button) findViewById(R.id.custom_event);
         custom.setOnClickListener(new View.OnClickListener() {
@@ -33,7 +33,7 @@ public class MainActivity extends Activity {
         adMarkup.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(final View view) {
-                AdService.getAd(new AdRequest("110", AdSize.S320x50) {
+                AdServing.get().requestAd(new AdRequest("110", AdSize.S320x50) {
                     @Override
                     protected void onResponse(final AdResponse response) {
                         view.post(new Runnable() {

@@ -6,7 +6,7 @@ import java.util.concurrent.ConcurrentLinkedQueue;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
-public class AdRequestDispatcher {
+class AdRequestDispatcher {
     private AdResource resource;
     private ConcurrentLinkedQueue<AdRequest> queue = new ConcurrentLinkedQueue<AdRequest>();
     private int maxParallelFetches;
@@ -17,7 +17,7 @@ public class AdRequestDispatcher {
         this.maxParallelFetches = maxParallelFetches;
     }
 
-    protected synchronized void dispatch(AdRequest e) {
+    synchronized void dispatch(AdRequest e) {
         queue.add(e);
         startExecutor();
     }

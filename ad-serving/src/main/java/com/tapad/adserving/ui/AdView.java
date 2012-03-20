@@ -13,7 +13,7 @@ import android.webkit.WebViewClient;
 import android.widget.LinearLayout;
 import com.tapad.adserving.AdRequest;
 import com.tapad.adserving.AdResponse;
-import com.tapad.adserving.AdService;
+import com.tapad.adserving.AdServing;
 import com.tapad.adserving.AdSize;
 
 /**
@@ -168,7 +168,7 @@ public class AdView extends LinearLayout {
      * Invokes the actual ad load.
      */
     protected void loadAd() {
-        AdService.getAd(new AdRequest(placementId, size) {
+        AdServing.get().requestAd(new AdRequest(placementId, size) {
             @Override
             protected void onResponse(final AdResponse response) {
 

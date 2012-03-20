@@ -1,7 +1,7 @@
 package com.tapad.adserving;
 
 /**
- * Encapsulates the request parameters needed to fetch an ad
+ * Encapsulates the request parameters needed to fetch an ad.
  */
 public abstract class AdRequest {
 
@@ -12,9 +12,12 @@ public abstract class AdRequest {
     /**
      * Constructs a new AdRequest.
      *
-     * @param placementId the target placement id assigned by Tapad / Swappit.
+     * @param placementId  the placement specific id assigned by Tapad / Swappit.
+     * @param size         the requested ad dimensions
+     * @param wrapWithHtml true if the markup should be wrapped with valid HTML document markup.
+     *                     If false, only a HTML fragment will be returned.
      */
-    public AdRequest(String placementId, AdSize size, Boolean wrapWithHtml) {
+    public AdRequest(String placementId, AdSize size, boolean wrapWithHtml) {
         this.placementId = placementId;
         this.size = size;
         this.wrapWithHtml = wrapWithHtml;

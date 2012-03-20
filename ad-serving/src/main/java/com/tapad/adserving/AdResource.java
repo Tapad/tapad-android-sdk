@@ -50,7 +50,7 @@ class AdResource {
         this.client = com.tapad.util.HttpClientUtil.createClient(userAgent);
     }
 
-    protected AdResponse get(AdRequest req) throws IOException {
+    AdResponse get(AdRequest req) throws IOException {
         List<NameValuePair> params = new ArrayList<NameValuePair>();
         params.add(new BasicNameValuePair(PARAM_DEVICE_ID, deviceId));
         params.add(new BasicNameValuePair(PARAM_PUBLISHER_ID, publisherId));
