@@ -12,15 +12,14 @@ public class AdViewActivity extends Activity {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.managed_ad_view);
+        adViewTop = (AdView) findViewById(R.id.ad_view_top);
+        adViewBottom = (AdView) findViewById(R.id.ad_view_bottom);
     }
 
     @Override
     protected void onResume() {
         super.onResume();
-        adViewTop = (AdView) findViewById(R.id.ad_view_top);
         adViewTop.start("108", AdSize.S320x50, 10);
-
-        adViewBottom = (AdView) findViewById(R.id.ad_view_bottom);
         adViewBottom.start("108", AdSize.S300x250, 10);
     }
 
