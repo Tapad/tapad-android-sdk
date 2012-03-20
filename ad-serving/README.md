@@ -18,8 +18,8 @@ Once the API is initialized, there are two major ways to work with it:
 
 Note that the SDK requires Internet access, so make sure you have the following permission in your `AndroidManifest.xml`:
 
-```
-    <uses-permission android:name="android.permission.INTERNET"/>
+```xml
+<uses-permission android:name="android.permission.INTERNET"/>
 ```
 
 
@@ -27,19 +27,19 @@ Note that the SDK requires Internet access, so make sure you have the following 
 The simplest integration approach is to add an SDK managed WebView to your layout. This class is called `AdView` and supports automatic ad refresh intervals etc.
 
 ### Add the AdView to your layout
-```
-    <com.tapad.adserving.ui.AdView
-            android:id="@+id/ad_view"
-            android:layout_height="50dip"
-            android:layout_width="fill_parent"
-            android:visibility="gone"
-    />
+```xml
+<com.tapad.adserving.ui.AdView
+	android:id="@+id/ad_view"
+    android:layout_height="50dip"
+    android:layout_width="fill_parent"
+    android:visibility="gone"
+/>
 ```
 
 ### Add onResume and onPause event hooks to your Activity
 To make sure that the view start refreshing ads when the activity becomes active and stops when the activity is passivated, add the following code to the activity containing the `AdView`:
 
-```
+```java
     @Override
     protected void onResume() {
         super.onResume();
@@ -64,13 +64,13 @@ Note that we're hiding the `AdView` by default. The view will automatically show
 # Using your own WebViews
 After the API has been initialized, you can get a reference to the `AdServiceService` by invoking:
 
-```
-   AdServingService service = com.tapad.adserving.AdServing.get();
+```java
+AdServingService service = com.tapad.adserving.AdServing.get();
 ```   
 
 The `AdServingService` allows you to asynchronously request ads. When the ad markup is available (or an error occurred), the `onResponse` method of your request will be invoked. For example:
 
-```
+```java
 AdServing.get().requestAd(new AdRequest(placementId, size) {
 	protected void onResponse(final AdResponse response) {
 		Runnable action = null;
@@ -100,7 +100,7 @@ The source code of our SDK is freely available here on Github, so you are free t
 For the latter:
 
 
-```
+```xml
 <dependency>
   <groupId>com.tapad.android</groupId>
   <artifactId>ad-serving</artifactId>
