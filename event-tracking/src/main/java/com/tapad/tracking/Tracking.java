@@ -37,21 +37,25 @@ public class Tracking {
      * @param appId the application identifier
      */
     public static void init(Context context, String appId) {
-        if (appId == null || appId.trim().length() == 0) {
-          appId = context.getApplicationContext().getPackageName();
-        }
+        synchronized(Tracking.class) {
+            if (service == null) {
+                if (appId == null || appId.trim().length() == 0) {
+                  appId = context.getApplicationContext().getPackageName();
+                }
 
-        deviceId = PreferenceManager.getDefaultSharedPreferences(context).getString(PREF_TAPAD_DEVICE_ID, null);
-        boolean firstRun = deviceId == null;
-        if (firstRun) {
-            deviceId = UUID.randomUUID().toString();
-            PreferenceManager.getDefaultSharedPreferences(context).edit().putString(PREF_TAPAD_DEVICE_ID, deviceId).commit();
-        }
+                deviceId = PreferenceManager.getDefaultSharedPreferences(context).getString(PREF_TAPAD_DEVICE_ID, null);
+                boolean firstRun = deviceId == null;
+                if (firstRun) {
+                    deviceId = UUID.randomUUID().toString();
+                    PreferenceManager.getDefaultSharedPreferences(context).edit().putString(PREF_TAPAD_DEVICE_ID, deviceId).commit();
+                }
 
-        service = new TrackingServiceImpl(new EventDispatcher(new EventResource(appId, deviceId)));
+                service = new TrackingServiceImpl(new EventDispatcher(new EventResource(appId, deviceId)));
 
-        if (firstRun) {
-            service.onEvent("install");
+                if (firstRun) {
+                    service.onEvent("install");
+                }
+            }
         }
     }
     
