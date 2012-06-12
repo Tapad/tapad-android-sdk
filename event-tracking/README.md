@@ -12,7 +12,7 @@ Place the following line of code in you startup activity onCreate():
 When the application is launched for the first time, a unique ID will be generated which will be used for all
 future tracking calls, and an installation event will be sent to the Tapad server to allow for impression attribution.
 
-If you have been provided with a designed app id, please call instead:
+If you have been provided with a designated app id, please call instead:
 
 ```java
   com.tapad.tracking.Tracking.init(this, "your-app-id");
