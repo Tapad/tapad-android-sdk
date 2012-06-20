@@ -25,6 +25,6 @@ class Event {
 
     @Override
     public String toString() {
-        return "Event[id=" + id + "]";
+        return "Event[id=" + id + ", extraParams=" + extraParameters + "]";
     }
 }
