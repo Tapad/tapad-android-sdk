@@ -5,14 +5,14 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
-import com.tapad.adserving.AdRequest;
-import com.tapad.adserving.AdResponse;
+import android.widget.TextView;
 import com.tapad.adserving.AdServing;
-import com.tapad.adserving.AdSize;
-import com.tapad.util.Logging;
 import com.tapad.tracking.Tracking;
 
 public class MainActivity extends Activity {
+
+    private TextView deviceId;
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -21,6 +21,9 @@ public class MainActivity extends Activity {
         AdServing.init(this, SampleConstants.PUBLISHER_ID, SampleConstants.PROPERTY_ID);
         // AdServing.init calls the Tracking init code. If you are just using the Tracking API,
         // just call Tracking.init(this) instead of the above.
+
+        deviceId = (TextView) findViewById(R.id.device_id);
+        updateDeviceId();
 
         Button custom = (Button) findViewById(R.id.custom_event);
         custom.setOnClickListener(new View.OnClickListener() {
@@ -38,11 +41,28 @@ public class MainActivity extends Activity {
         });
 
         Button managedView = (Button) findViewById(R.id.managed_ad_view);
-        managedView.setOnClickListener(new View.OnClickListener(){
+        managedView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 startActivity(new Intent(MainActivity.this, AdViewActivity.class));
             }
         });
+
+        Button optInOut = (Button) findViewById(R.id.opt_in_out);
+        optInOut.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (Tracking.isOptedOut())
+                    Tracking.optIn(MainActivity.this);
+                else
+                    Tracking.optOut(MainActivity.this);
+
+                updateDeviceId();
+            }
+        });
+    }
+
+    private void updateDeviceId() {
+        deviceId.setText("Device ID: " + Tracking.getDeviceId().get());
     }
 }

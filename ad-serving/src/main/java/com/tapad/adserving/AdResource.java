@@ -1,5 +1,6 @@
 package com.tapad.adserving;
 
+import com.tapad.tracking.DeviceIdentifier;
 import com.tapad.util.Logging;
 import com.tapad.util.IoUtil;
 import org.apache.http.HttpEntity;
@@ -22,7 +23,7 @@ import java.util.List;
  * Single-threaded access only.
  */
 class AdResource {
-    private static String TAG = "AdResource";
+    private static String TAG = "Tapad/AdResource";
     
     private static final String RESOURCE_URL = "http://swappit.tapad.com/swappit/ad";
 
@@ -38,12 +39,12 @@ class AdResource {
     public static final String PARAM_PLACEMENT_ID = "placementId";
     public static final String PARAM_WRAP_HTML = "wrapHtml";
 
-    private String deviceId;
+    private DeviceIdentifier deviceId;
     private String propertyId;
     private String publisherId;
     private DefaultHttpClient client;
 
-    AdResource(String deviceId, String publisherId, String propertyId, String userAgent) {
+    AdResource(DeviceIdentifier deviceId, String publisherId, String propertyId, String userAgent) {
         this.deviceId = deviceId;
         this.publisherId = publisherId;
         this.propertyId = propertyId;
@@ -52,7 +53,7 @@ class AdResource {
 
     AdResponse get(AdRequest req) throws IOException {
         List<NameValuePair> params = new ArrayList<NameValuePair>();
-        params.add(new BasicNameValuePair(PARAM_DEVICE_ID, deviceId));
+        params.add(new BasicNameValuePair(PARAM_DEVICE_ID, deviceId.get()));
         params.add(new BasicNameValuePair(PARAM_PUBLISHER_ID, publisherId));
         params.add(new BasicNameValuePair(PARAM_AD_SIZE, req.getSize().asString()));
         if (propertyId != null) params.add(new BasicNameValuePair(PARAM_PROPERTY_ID, propertyId));

@@ -10,6 +10,13 @@
             android:text="Tapad Event Tracking"
             />
 
+    <TextView
+            android:id="@+id/device_id"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:text=""
+            />
+
     <Button android:id="@+id/custom_event"
             android:text="Send custom event"
             android:layout_width="fill_parent"
@@ -24,6 +31,12 @@
 
     <Button android:id="@+id/managed_ad_view"
             android:text="Show managed ad view"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            />
+
+    <Button android:id="@+id/opt_in_out"
+            android:text="Opt in / out"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             />

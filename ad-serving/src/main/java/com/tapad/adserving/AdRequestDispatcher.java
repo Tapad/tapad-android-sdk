@@ -34,7 +34,7 @@ class AdRequestDispatcher {
     }
 
     private class DispatchWorker implements Runnable {
-        private static final String TAG = "AdDispatchWorker";
+        private static final String TAG = "Tapad/AdDispatchWorker";
 
         public void run() {
             AdRequest req;

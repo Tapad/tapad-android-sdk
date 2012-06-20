@@ -1,20 +1,12 @@
 package com.tapad.tracking;
 
-import android.util.Log;
 import com.tapad.util.HttpClientUtil;
 import org.apache.http.HttpResponse;
-import org.apache.http.HttpVersion;
 import org.apache.http.NameValuePair;
-import org.apache.http.client.HttpClient;
 import org.apache.http.client.methods.HttpPost;
 import org.apache.http.client.utils.URLEncodedUtils;
-import org.apache.http.conn.ConnectionKeepAliveStrategy;
 import org.apache.http.impl.client.DefaultHttpClient;
 import org.apache.http.message.BasicNameValuePair;
-import org.apache.http.params.BasicHttpParams;
-import org.apache.http.params.HttpParams;
-import org.apache.http.params.HttpProtocolParams;
-import org.apache.http.protocol.HttpContext;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -35,7 +27,7 @@ class EventResource {
     private DefaultHttpClient client;
 
     private String appId;
-    private String deviceId;
+    private DeviceIdentifier deviceId;
 
     /**
      * Constructs a new EventResource instance.
@@ -43,7 +35,7 @@ class EventResource {
      * @param appId    the application id to use
      * @param deviceId the device id to use
      */
-    EventResource(String appId, String deviceId) {
+    EventResource(String appId, DeviceIdentifier deviceId) {
         this.appId = appId;
         this.deviceId = deviceId;
         this.client = HttpClientUtil.createClient("Android/TapadEventAPI/1.0");
@@ -52,7 +44,7 @@ class EventResource {
     protected void post(Event e) throws IOException {
         List<NameValuePair> params = new ArrayList<NameValuePair>();
         params.add(new BasicNameValuePair(PARAM_APP_ID, appId));
-        params.add(new BasicNameValuePair(PARAM_DEVICE_ID, deviceId));
+        params.add(new BasicNameValuePair(PARAM_DEVICE_ID, deviceId.get()));
         params.add(new BasicNameValuePair(PARAM_EVENT_ID, e.getId()));
         String query = URLEncodedUtils.format(params, "UTF-8");
 

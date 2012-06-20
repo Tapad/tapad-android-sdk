@@ -1,11 +1,8 @@
 package com.tapad.adserving;
 
 import android.content.Context;
-import android.preference.PreferenceManager;
 import android.webkit.WebView;
 import com.tapad.tracking.Tracking;
-
-import java.util.UUID;
 
 /**
  * Main entry point for ad serving API users. Provides API initialization as well
@@ -15,7 +12,6 @@ import java.util.UUID;
  * are used or if the API user want to access the markup directly.
  */
 public class AdServing {
-    private static final String PREF_TAPAD_DEVICE_ID = "_tapad_device_id";
     private static AdServingService service;
 
     /**

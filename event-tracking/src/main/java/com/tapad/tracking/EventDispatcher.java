@@ -42,7 +42,7 @@ class EventDispatcher {
     }
 
     private class DispatchWorker implements Runnable {
-        private static final String TAG = "DispatchWorker";
+        private static final String TAG = "Tapad/DispatchWorker";
 
         public void run() {
             Event event;
