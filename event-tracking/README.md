@@ -9,7 +9,7 @@ Add the following meta attribute to your `AndroidManifest.xml` in the `<Applicat
 ```xml
 	<application ...>
         <meta-data android:name="tapad.APP_ID" android:value="INSERT_APP_ID_HERE"/>
-         … 
+        ... 
     </application>
 ```
 
@@ -23,17 +23,17 @@ This will send the conversion events, `install` and `first-run`, to Tapad server
 
 ## Google Play referral tracking (highly recommended)
 
-In order to connect an install to an individual ad impression click-through, Google Play referral tracking must be enabled. This also means that the tracking API will be able to report installs even before the application is opened for the first time. To enable referrer tracking, somply add the following to your `AndroidManifest.xml`
+In order to connect an install to an individual ad impression click-through, Google Play referral tracking must be enabled. This also means that the tracking API will be able to report installs even before the application is opened for the first time. To enable referrer tracking, simply add the following to your `AndroidManifest.xml`
 
 ```xml
-    <application …>
-      …
-		<receiver android:name="com.tapad.tracking.InstallReferrerReceiver" android:exported="true">
-        	<intent-filter>
-                <action android:name="com.android.vending.INSTALL_REFERRER"/>
-            </intent-filter>
-        </receiver>
-   </application>
+<application …>
+	...		
+	<receiver android:name="com.tapad.tracking.InstallReferrerReceiver" android:exported="true">
+    	<intent-filter>
+        	<action android:name="com.android.vending.INSTALL_REFERRER"/>
+        </intent-filter>
+     </receiver>
+</application>
 ```
 
 ## Custom event tracking
