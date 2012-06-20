@@ -2,20 +2,38 @@
 This API allows for app installation tracking (and attribution) as well as tracking other, arbitrary
 events which then can be analyzed and visualized in the Tapad reporting dashboards.
 
-## Install tracking
-Place the following line of code in you startup activity onCreate():
+## Basic setup
+
+Add the following meta attribute to your `AndroidManifest.xml` in the `<Application>` block:
+
+```xml
+	<application ...>
+        <meta-data android:name="tapad.APP_ID" android:value="INSERT_APP_ID_HERE"/>
+         … 
+    </application>
+```
+
+Place the following line of code in you startup activity `onCreate()`:
 
 ```java
   com.tapad.tracking.Tracking.init(this);
 ```
 
-When the application is launched for the first time, a unique ID will be generated which will be used for all
-future tracking calls, and an installation event will be sent to the Tapad server to allow for impression attribution.
+This will send the conversion events, `install` and `first-run`, to Tapad servers the first time a user runs the application (`install` wil not be sent if referrer tracking is enabled).
 
-If you have been provided with a designated app id, please call instead:
+## Google Play referral tracking (highly recommended)
 
-```java
-  com.tapad.tracking.Tracking.init(this, "your-app-id");
+In order to connect an install to an individual ad impression click-through, Google Play referral tracking must be enabled. This also means that the tracking API will be able to report installs even before the application is opened for the first time. To enable referrer tracking, somply add the following to your `AndroidManifest.xml`
+
+```xml
+    <application …>
+      …
+		<receiver android:name="com.tapad.tracking.InstallReferrerReceiver" android:exported="true">
+        	<intent-filter>
+                <action android:name="com.android.vending.INSTALL_REFERRER"/>
+            </intent-filter>
+        </receiver>
+   </application>
 ```
 
 ## Custom event tracking
