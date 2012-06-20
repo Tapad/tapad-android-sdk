@@ -2,26 +2,31 @@
 This API allows for serving ads through the Swappit Ad service.
 
 
-## Initialization of the API
+## Basic setup
+
+Add the following `uses-permission` and `meta-data` tags to your `AndroidManifest.xml`:
+
+```xml
+    <uses-permission android:name="android.permission.INTERNET"/>
+	<application ...>
+        <meta-data android:name="swappit.PUBLISHER_ID" android:value="INSERT_PUBLISHER_ID_HERE"/>
+        <meta-data android:name="swappit.PROPERTY_ID" android:value="INSERT_PROPERTY_ID_HERE"/>
+        ...
+    </application>
+```
+
+The `publisher` and `property` ids are specified in your Swappit dashboard.
+
 Place the following line of code in your startup activity's onCreate():
 
 ```java
-  com.tapad.adserving.AdServing.init(this, publisherId, propertyId);
+  com.tapad.adserving.AdServing.init(this);
 ```
-
-The `publisherId` and `propertyId` are specified in your Swappit dashboard.
 
 Once the API is initialized, there are two major ways to work with it:
 
 1. Using an SDK managed WebView 
 2. Using your own WebViews
-
-Note that the SDK requires Internet access, so make sure you have the following permission in your `AndroidManifest.xml`:
-
-```xml
-<uses-permission android:name="android.permission.INTERNET"/>
-```
-
 
 # Using an SDK managed WebView
 The simplest integration approach is to add an SDK managed WebView to your layout. This class is called `AdView` and supports automatic ad refresh intervals etc.
@@ -83,7 +88,7 @@ AdServing.get().requestAd(new AdRequest(placementId, size) {
             case AdResponse.NO_AD_AVAILABLE:
             	// No match for ad request (will usually only occur if an exotic size is specified)
             case AdResponse.ERROR:
-                // No network connectiviti etc.
+                // No network connectivity etc.
 		}
 	}
 }
@@ -105,7 +110,7 @@ For the latter:
   <dependency>
     <groupId>com.tapad.android</groupId>
     <artifactId>ad-serving</artifactId>
-    <version>1.0.0</version>
+    <version>1.0.1</version>
   </dependency>
   ...
 </dependencies>
