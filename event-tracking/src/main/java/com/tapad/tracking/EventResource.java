@@ -19,7 +19,7 @@ import java.util.List;
  * Single-threaded access only.
  */
 class EventResource {
-    private static final String RESOURCE_URL = "http://analytics.tapad.com/app/event";
+    private static final String RESOURCE_URL = "https://analytics.tapad.com/app/event";
     private static final String PARAM_APP_ID = "app_id";
     private static final String PARAM_DEVICE_ID = "device_id";
     private static final String PARAM_EVENT_ID = "action_id";

@@ -25,7 +25,7 @@ import java.util.List;
 class AdResource {
     private static String TAG = "Tapad/AdResource";
     
-    private static final String RESOURCE_URL = "http://swappit.tapad.com/swappit/ad";
+    private static final String RESOURCE_URL = "https://swappit.tapad.com/swappit/ad";
 
     // Just a sanity check so we don't waste too much bandwidth in case of some
     // markup error / glitch.
