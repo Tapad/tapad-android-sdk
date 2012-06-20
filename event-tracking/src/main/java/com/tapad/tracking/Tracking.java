@@ -1,6 +1,8 @@
 package com.tapad.tracking;
 
 import android.content.Context;
+import android.content.pm.ApplicationInfo;
+import android.content.pm.PackageManager;
 import android.preference.PreferenceManager;
 import android.provider.Settings;
 import com.tapad.util.Logging;
@@ -10,9 +12,8 @@ import java.security.MessageDigest;
 import java.util.UUID;
 
 /**
- * Public entry
+ * Public entry-point to the tracking API.
  */
-@SuppressWarnings({"UnusedDeclaration"})
 public class Tracking {
     private static final String PREF_TAPAD_DEVICE_ID = "_tapad_device_id";
     private static final String OPTED_OUT_DEVICE_ID = "OptedOut";
@@ -27,16 +28,24 @@ public class Tracking {
     };
 
     /**
-     * Initializes the tracking API using the app package name as the id.
+     * Initializes the tracking API with application id as specified in AndroidManifest.xml:
      *
-     * One of the initialization functions must be called before TrackingService.get().
+     * <application>
+     *  <meta-data android:name="tapad.APP_ID" android:value="INSERT_APP_ID_HERE"/>
+     *  ...
+     * </application>
      *
-     * @param context
+     * @param context a context reference
      */
     public static void init(Context context) {
-        init(context, null);
+        try {
+            ApplicationInfo ai = context.getPackageManager().getApplicationInfo(context.getPackageName(), PackageManager.GET_META_DATA);
+            String appId = ai.metaData.getString("tapad.APP_ID");
+            init(context, appId);
+        } catch (Exception e) {
+            throw new RuntimeException("Unable to read tapad.APP_ID from AndroidManifest.xml", e);
+        }
     }
-
 
     /**
      * Initializes the tracking API using the supplied value as the application id.  If the
@@ -45,7 +54,7 @@ public class Tracking {
      *
      * One of the initialization functions must be called before TrackingService.get().
      *
-     * @param context
+     * @param context a context reference
      * @param appId the application identifier
      */
     public static void init(Context context, String appId) {
@@ -97,7 +106,7 @@ public class Tracking {
      * string OptedOut. This means that it is now impossible to distinguish this device from all
      * other opted out device.
      *
-     * @param context
+     * @param context a context reference
      */
     public static void optOut(Context context) {
         deviceId = OPTED_OUT_DEVICE_ID;
@@ -109,7 +118,8 @@ public class Tracking {
 
     /**
      * Opts the device back in after an opt out.
-     * @param context
+     *
+     * @param context a context reference
      */
     public static void optIn(Context context) {
         deviceId = getHashedDeviceId(context);

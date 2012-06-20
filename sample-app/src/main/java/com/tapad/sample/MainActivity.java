@@ -18,7 +18,7 @@ public class MainActivity extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.main);
 
-        AdServing.init(this, SampleConstants.PUBLISHER_ID, SampleConstants.PROPERTY_ID);
+        AdServing.init(this);
         // AdServing.init calls the Tracking init code. If you are just using the Tracking API,
         // just call Tracking.init(this) instead of the above.
 

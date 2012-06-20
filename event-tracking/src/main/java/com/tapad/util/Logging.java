@@ -16,4 +16,5 @@ public class Logging {
     public static void error(String tag, String message) {
         if (enabled) Log.e(tag, message);
     }
+
 }

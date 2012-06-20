@@ -1,6 +1,8 @@
 package com.tapad.adserving;
 
 import android.content.Context;
+import android.content.pm.ApplicationInfo;
+import android.content.pm.PackageManager;
 import android.webkit.WebView;
 import com.tapad.tracking.Tracking;
 
@@ -15,12 +17,40 @@ public class AdServing {
     private static AdServingService service;
 
     /**
-     * Initializes the ad serving API with a publisherId and propertyId.
+     * Initializes the ad serving API with publisher and property ids as specified in
+     * AndroidManifest.xml:
+     *
+     * <application>
+     *  <meta-data android:name="swappit.PUBLISHER_ID" android:value="INSERT_PUBLISHER_ID_HERE"/>
+     *  <meta-data android:name="swappit.PROPERTY_ID" android:value="INSERT_PROPERTY_ID_HERE"/>
+     *  ...
+     * </application>
      *
      * @param context     a context reference
-     * @param publisherId the publisher specific id as specified by Tapad
-     * @param propertyId  the app specific id as specified by Tapad
      */
+    public static void init(Context context) {
+        try {
+            ApplicationInfo ai = context.getPackageManager().getApplicationInfo(context.getPackageName(), PackageManager.GET_META_DATA);
+            String publisherId = ai.metaData.getString("swappit.PUBLISHER_ID");
+            if (publisherId == null) throw new RuntimeException("swappit.PUBLISHER_ID is not set in AndroidManifest.xml");
+
+            String propertyId = ai.metaData.getString("swappit.PROPERTY_ID");
+            if (propertyId== null) throw new RuntimeException("swappit.PROPERTY_ID is not set in AndroidManifest.xml");
+
+            init(context, publisherId, propertyId);
+        } catch (Exception e) {
+            throw new RuntimeException("Unable to read swappit.PUBLISHER_ID and swappit.PROPERTY_ID from AndroidManifest.xml");
+        }
+
+    }
+
+    /**
+    * Initializes the ad serving API with a publisherId and propertyId.
+    *
+    * @param context     a context reference
+    * @param publisherId the publisher specific id as specified by Tapad
+    * @param propertyId  the app specific id as specified by Tapad
+    */
     public static void init(Context context, String publisherId, String propertyId) {
         WebView wv = new WebView(context);
         String userAgent = wv.getSettings().getUserAgentString();

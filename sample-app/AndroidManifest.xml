@@ -9,6 +9,11 @@
             android:icon="@drawable/logo"
             android:label="TestApp"
             >
+
+        <meta-data android:name="tapad.APP_ID" android:value="appid"/>
+        <meta-data android:name="swappit.PUBLISHER_ID" android:value="pubid"/>
+        <meta-data android:name="swappit.PROPERTY_ID" android:value="propid"/>
+
         <activity android:name=".MainActivity"
                   android:label="TestActivity">
             <intent-filter>
