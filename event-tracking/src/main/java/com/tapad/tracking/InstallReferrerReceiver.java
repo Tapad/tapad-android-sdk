@@ -34,7 +34,7 @@ public class InstallReferrerReceiver extends BroadcastReceiver {
                 Tracking.setupAPI(context, null);
                 Tracking.get().onEvent(Tracking.EVENT_INSTALL, "android_referrer=" + URLEncoder.encode(referrerString, "UTF-8"));
                 // Register that the install event now has been sent
-                PreferenceManager.getDefaultSharedPreferences(context).edit().putBoolean(Tracking.EVENT_INSTALL, true).commit();
+                PreferenceManager.getDefaultSharedPreferences(context).edit().putBoolean(Tracking.PREF_INSTALL_SENT, true).commit();
             } catch (Exception e) {
                 Logging.error("Tapad/InstallReferrerReceiver", "Error parsing referrer. Install event will not be sent. " + e.getMessage());
             }

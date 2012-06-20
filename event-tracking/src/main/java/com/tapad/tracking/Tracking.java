@@ -16,12 +16,12 @@ import java.util.UUID;
  * Public entry-point to the tracking API.
  */
 public class Tracking {
-    private static final String PREF_TAPAD_DEVICE_ID = "_tapad_device_id";
-    private static final String PREF_INSTALL_SENT = "_tapad_install_sent";
-    private static final String PREF_FIRST_RUN_SENT = "_tapad_first_run_sent";
+    protected static final String PREF_TAPAD_DEVICE_ID = "_tapad_device_id";
+    protected static final String PREF_INSTALL_SENT = "_tapad_install_sent";
+    protected static final String PREF_FIRST_RUN_SENT = "_tapad_first_run_sent";
 
-    public static final String EVENT_INSTALL = "install";
-    public static final String EVENT_FIRST_RUN = "first-run";
+    protected static final String EVENT_INSTALL = "install";
+    protected static final String EVENT_FIRST_RUN = "first-run";
 
     public static final String OPTED_OUT_DEVICE_ID = "OptedOut";
 
