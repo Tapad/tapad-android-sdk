@@ -4,6 +4,7 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import com.tapad.util.Logging;
 
 import java.net.URLEncoder;
@@ -30,8 +31,10 @@ public class InstallReferrerReceiver extends BroadcastReceiver {
         if (extras != null && extras.getString("referrer") != null) {
             String referrerString = extras.getString("referrer");
             try {
-                Tracking.init(context);
-                Tracking.get().onEvent("install", "android_referrer=" + URLEncoder.encode(referrerString, "UTF-8"));
+                Tracking.setupAPI(context, null);
+                Tracking.get().onEvent(Tracking.EVENT_INSTALL, "android_referrer=" + URLEncoder.encode(referrerString, "UTF-8"));
+                // Register that the install event now has been sent
+                PreferenceManager.getDefaultSharedPreferences(context).edit().putBoolean(Tracking.EVENT_INSTALL, true).commit();
             } catch (Exception e) {
                 Logging.error("Tapad/InstallReferrerReceiver", "Error parsing referrer. Install event will not be sent. " + e.getMessage());
             }

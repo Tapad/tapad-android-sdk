@@ -1,6 +1,7 @@
 package com.tapad.tracking;
 
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.content.pm.ApplicationInfo;
 import android.content.pm.PackageManager;
 import android.preference.PreferenceManager;
@@ -16,7 +17,14 @@ import java.util.UUID;
  */
 public class Tracking {
     private static final String PREF_TAPAD_DEVICE_ID = "_tapad_device_id";
-    private static final String OPTED_OUT_DEVICE_ID = "OptedOut";
+    private static final String PREF_INSTALL_SENT = "_tapad_install_sent";
+    private static final String PREF_FIRST_RUN_SENT = "_tapad_first_run_sent";
+
+    public static final String EVENT_INSTALL = "install";
+    public static final String EVENT_FIRST_RUN = "first-run";
+
+    public static final String OPTED_OUT_DEVICE_ID = "OptedOut";
+
 
     private static TrackingService service = null;
     private static String deviceId;
@@ -29,53 +37,69 @@ public class Tracking {
 
     /**
      * Initializes the tracking API with application id as specified in AndroidManifest.xml:
-     *
+     * <p/>
      * <application>
-     *  <meta-data android:name="tapad.APP_ID" android:value="INSERT_APP_ID_HERE"/>
-     *  ...
+     * <meta-data android:name="tapad.APP_ID" android:value="INSERT_APP_ID_HERE"/>
+     * ...
      * </application>
      *
      * @param context a context reference
      */
     public static void init(Context context) {
-        try {
-            ApplicationInfo ai = context.getPackageManager().getApplicationInfo(context.getPackageName(), PackageManager.GET_META_DATA);
-            String appId = ai.metaData.getString("tapad.APP_ID");
-            init(context, appId);
-        } catch (Exception e) {
-            throw new RuntimeException("Unable to read tapad.APP_ID from AndroidManifest.xml", e);
+        init(context, null);
+    }
+
+    /**
+     * Initializes the tracking API using the supplied application id. If the
+     * supplied value is null or consist only of white space, then the AndroidManifest.xml
+     * values are used (@see #init(android.content.Context)).
+     * <p/>
+     * One of the initialization functions must be called before TrackingService.get().
+     *
+     * @param context a context reference
+     * @param appId   the application identifier
+     * @see #init(android.content.Context)
+     *
+     */
+    public static void init(Context context, String appId) {
+        setupAPI(context, appId);
+        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(context);
+
+        // This event may have been sent by the InstallReferrerReceiver,
+        // so first-run and install are not always sent at the same time.
+        if (!prefs.getBoolean(PREF_INSTALL_SENT, false)) {
+            get().onEvent(EVENT_INSTALL);
+            prefs.edit().putBoolean(PREF_INSTALL_SENT, true).commit();
+        }
+        if (!prefs.getBoolean(PREF_FIRST_RUN_SENT, false)) {
+            get().onEvent(EVENT_FIRST_RUN);
+            prefs.edit().putBoolean(PREF_FIRST_RUN_SENT, true).commit();
         }
     }
 
     /**
-     * Initializes the tracking API using the supplied value as the application id.  If the
-     * supplied value is null or consist only of white space, then the app package name is
-     * used.
-     *
-     * One of the initialization functions must be called before TrackingService.get().
-     *
-     * @param context a context reference
-     * @param appId the application identifier
+     * Configures the API.
      */
-    public static void init(Context context, String appId) {
-        synchronized(Tracking.class) {
+    protected static void setupAPI(Context context, String appId) {
+        synchronized (Tracking.class) {
             if (service == null) {
-                if (appId == null || appId.trim().length() == 0) {
-                    appId = context.getApplicationContext().getPackageName();
+
+                if (appId == null || appId.trim().length() == 0){
+                    try {
+                        ApplicationInfo ai = context.getPackageManager().getApplicationInfo(context.getPackageName(), PackageManager.GET_META_DATA);
+                        appId = ai.metaData.getString("tapad.APP_ID");
+                        init(context, appId);
+                    } catch (Exception e) {
+                        throw new RuntimeException("No app id specified and unable to read tapad.APP_ID from AndroidManifest.xml", e);
+                    }
                 }
 
                 deviceId = PreferenceManager.getDefaultSharedPreferences(context).getString(PREF_TAPAD_DEVICE_ID, null);
-                boolean firstRun = deviceId == null;
-                if (firstRun) {
+                if (deviceId == null) {
                     deviceId = getHashedDeviceId(context);
                     PreferenceManager.getDefaultSharedPreferences(context).edit().putString(PREF_TAPAD_DEVICE_ID, deviceId).commit();
                 }
-
                 service = new TrackingServiceImpl(new EventDispatcher(new EventResource(appId, deviceIdLocator)));
-
-                if (firstRun) {
-                    service.onEvent("first-run");
-                }
             }
         }
     }
@@ -83,7 +107,7 @@ public class Tracking {
     /**
      * Gets the Android system ID hashed with MD5 and formatted as a 32 byte hexadecimal number.
      * This is the same device identifier that most of the ad networks use.
-     *
+     * <p/>
      * Falls back to generating a UDID in the (extremely) unlikely case that MD5 is not available
      * or (more likely) that the ANDROID_ID setting becomes a privileged op.
      *
@@ -130,7 +154,8 @@ public class Tracking {
     }
 
     private static void assertInitialized() {
-        if (service == null) throw new IllegalStateException("Please call Tracking.init(context) to initialize the API first!");
+        if (service == null)
+            throw new IllegalStateException("Please call Tracking.init(context) to initialize the API first!");
     }
 
     /**
