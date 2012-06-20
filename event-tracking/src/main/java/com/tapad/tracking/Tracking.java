@@ -74,7 +74,7 @@ public class Tracking {
                 service = new TrackingServiceImpl(new EventDispatcher(new EventResource(appId, deviceIdLocator)));
 
                 if (firstRun) {
-                    service.onEvent("install");
+                    service.onEvent("first-run");
                 }
             }
         }
