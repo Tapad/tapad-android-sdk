@@ -10,9 +10,14 @@
             android:label="TestApp"
             >
 
-        <meta-data android:name="tapad.APP_ID" android:value="appid"/>
-        <meta-data android:name="swappit.PUBLISHER_ID" android:value="pubid"/>
-        <meta-data android:name="swappit.PROPERTY_ID" android:value="propid"/>
+        <!-- Tapad Tracking application id. Not required if Swappit Property ID is specified -->
+        <meta-data android:name="tapad.APP_ID" android:value="sample_app"/>
+        <!-- End -->
+
+        <!-- Swappit Ad Serving properties -->
+        <meta-data android:name="swappit.PUBLISHER_ID" android:value="sample_pub"/>
+        <meta-data android:name="swappit.PROPERTY_ID" android:value="sample_app"/>
+        <!-- End -->
 
         <activity android:name=".MainActivity"
                   android:label="TestActivity">
@@ -23,6 +28,8 @@
         </activity>
         <activity android:name=".AdViewActivity" android:label="Ad with managed view"/>
         <activity android:name=".ManualMarkupActivity" android:label="Manual markup management"/>
+
+        <!-- Google Play referral tracking -->
         <receiver android:name="com.tapad.tracking.InstallReferrerReceiver" android:exported="true">
             <intent-filter>
                 <action android:name="com.android.vending.INSTALL_REFERRER"/>
