@@ -19,14 +19,14 @@ Place the following line of code in you startup activity `onCreate()`:
   com.tapad.tracking.Tracking.init(this);
 ```
 
-This will send the conversion events, `install` and `first-run`, to Tapad servers the first time a user runs the application (`install` wil not be sent if referrer tracking is enabled).
+This will send the conversion events, `install` and `first-run`, to Tapad servers the first time a user runs the application.
 
 ## Google Play referral tracking (highly recommended)
 
 In order to connect an install to an individual ad impression click-through, Google Play referral tracking must be enabled. This also means that the tracking API will be able to report installs even before the application is opened for the first time. To enable referrer tracking, simply add the following to your `AndroidManifest.xml`
 
 ```xml
-<application …>
+<application ...>
 	...		
 	<receiver android:name="com.tapad.tracking.InstallReferrerReceiver" android:exported="true">
     	<intent-filter>
