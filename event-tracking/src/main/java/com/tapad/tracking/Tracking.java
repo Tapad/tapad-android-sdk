@@ -84,11 +84,10 @@ public class Tracking {
         synchronized (Tracking.class) {
             if (service == null) {
 
-                if (appId == null || appId.trim().length() == 0){
+                if (appId == null || appId.trim().length() == 0) {
                     try {
                         ApplicationInfo ai = context.getPackageManager().getApplicationInfo(context.getPackageName(), PackageManager.GET_META_DATA);
                         appId = ai.metaData.getString("tapad.APP_ID");
-                        init(context, appId);
                     } catch (Exception e) {
                         throw new RuntimeException("No app id specified and unable to read tapad.APP_ID from AndroidManifest.xml", e);
                     }
