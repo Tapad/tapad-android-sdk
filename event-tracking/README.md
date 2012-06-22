@@ -1,6 +1,5 @@
 # Tapad Android Tracking API
-This API allows for app installation tracking (and attribution) as well as tracking other, arbitrary
-events which then can be analyzed and visualized in the Tapad reporting dashboards.
+This API allows for app installation tracking as well as tracking other arbitrary events.
 
 ## Basic setup
 
@@ -44,9 +43,6 @@ To track other events, such as a sign-up or an in-app purchase, place the follow
 ```java
   com.tapad.tracking.Tracking.get().onEvent("some-event");
 ```
-
-These events will then be available for bid optimization in the DSP self service UI allowing you to set a
-target price for each event.
 
 ## How to include the Tapad code in your project
 The source code of our SDK is freely available here on Github, so you are free to include the code however you prefer:
