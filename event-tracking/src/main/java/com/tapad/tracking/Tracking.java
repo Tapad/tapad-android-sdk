@@ -98,7 +98,10 @@ public class Tracking {
                     deviceId = getHashedDeviceId(context);
                     PreferenceManager.getDefaultSharedPreferences(context).edit().putString(PREF_TAPAD_DEVICE_ID, deviceId).commit();
                 }
-                service = new TrackingServiceImpl(new EventDispatcher(new EventResource(appId, deviceIdLocator)));
+
+                service = new TrackingServiceImpl(
+                        new EventDispatcher(new EventResource(appId, deviceIdLocator, DeviceInfo.getUserAgent(context)))
+                );
             }
         }
     }

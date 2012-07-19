@@ -78,6 +78,9 @@ For the latter:
 
 ## Changelog
 
+### 1.0.2
+* Fix an issue where Android phones would identify themselves as Android tablets by not sending an UA containing "mobile"
+
 ### 1.0.1
 * Change device identification to harmonize with ad networks
 * Allow for configuration via meta-tags in `AndroidManifest.xml`
