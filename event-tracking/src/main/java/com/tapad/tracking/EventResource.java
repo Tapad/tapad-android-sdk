@@ -36,10 +36,10 @@ class EventResource {
      * @param appId    the application id to use
      * @param deviceId the device id to use
      */
-    EventResource(String appId, DeviceIdentifier deviceId) {
+    EventResource(String appId, DeviceIdentifier deviceId, String userAgent) {
         this.appId = appId;
         this.deviceId = deviceId;
-        this.client = HttpClientUtil.createClient("Android/TapadEventAPI/1.0");
+        this.client = HttpClientUtil.createClient(userAgent);
     }
 
     protected void post(Event e) throws IOException {
