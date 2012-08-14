@@ -31,13 +31,13 @@ public class AdServing {
     public static void init(Context context) {
         try {
             ApplicationInfo ai = context.getPackageManager().getApplicationInfo(context.getPackageName(), PackageManager.GET_META_DATA);
-            String publisherId = ai.metaData.getString("swappit.PUBLISHER_ID");
+            Object publisherId = ai.metaData.get("swappit.PUBLISHER_ID");
             if (publisherId == null) throw new RuntimeException("swappit.PUBLISHER_ID is not set in AndroidManifest.xml");
 
-            String propertyId = ai.metaData.getString("swappit.PROPERTY_ID");
+            Object propertyId = ai.metaData.get("swappit.PROPERTY_ID");
             if (propertyId== null) throw new RuntimeException("swappit.PROPERTY_ID is not set in AndroidManifest.xml");
 
-            init(context, publisherId, propertyId);
+            init(context, publisherId.toString(), propertyId.toString());
         } catch (Exception e) {
             throw new RuntimeException("Unable to read swappit.PUBLISHER_ID and swappit.PROPERTY_ID from AndroidManifest.xml");
         }
