@@ -15,7 +15,16 @@ Add the following `uses-permission` and `meta-data` tags to your `AndroidManifes
     </application>
 ```
 
-The `publisher` and `property` ids are specified in your Swappit dashboard.
+Please visit your Swappit dashboard to find the `publisher` and `property` ids as well as the code for each of your placements. This information is located in the Implement Code tab of the Edit Property view.
+
+To navigate to the instructions:
+
+1. Go to the [Swappit Earning Dashboard](https://partner.swappit.com/earn)
+2. Select a property from the list
+3. Click the Edit property button
+4. Select the Implement Code tab
+5. Click the Show me the code button
+6. If not selected by default, please select the Android App tab to see the relevant instructions
 
 Place the following line of code in your startup activity's onCreate():
 

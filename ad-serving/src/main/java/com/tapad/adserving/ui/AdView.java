@@ -125,7 +125,7 @@ public class AdView extends LinearLayout {
      * @param markup the markup to render
      */
     protected void showMarkup(final String markup) {
-        webView.loadData(markup, "text/html", null);
+        webView.loadDataWithBaseURL(null, markup, "text/html", "utf-8", null);
     }
 
     /**
