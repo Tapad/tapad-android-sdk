@@ -56,7 +56,7 @@ public class AdServing {
         String userAgent = wv.getSettings().getUserAgentString();
         wv.destroy();
 
-        Tracking.init(context, propertyId);
+        Tracking.init(context, propertyId, null);
         AdResource resource = new AdResource(Tracking.getDeviceId(), publisherId, propertyId, userAgent);
         service = new AdServingServiceImpl(new AdRequestDispatcher(resource, 2));
     }

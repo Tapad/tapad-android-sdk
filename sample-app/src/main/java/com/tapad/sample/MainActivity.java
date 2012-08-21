@@ -12,6 +12,7 @@ import com.tapad.tracking.Tracking;
 public class MainActivity extends Activity {
 
     private TextView deviceId;
+    private TextView typedDeviceId;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -23,6 +24,7 @@ public class MainActivity extends Activity {
         // just call Tracking.init(this) instead of the above.
 
         deviceId = (TextView) findViewById(R.id.device_id);
+        typedDeviceId = (TextView) findViewById(R.id.typed_device_id);
         updateDeviceId();
 
         Button custom = (Button) findViewById(R.id.custom_event);
@@ -64,5 +66,6 @@ public class MainActivity extends Activity {
 
     private void updateDeviceId() {
         deviceId.setText("Device ID: " + Tracking.getDeviceId().get());
+        typedDeviceId.setText("Typed Device ID(s): " + Tracking.getDeviceId().getTypedIds());
     }
 }

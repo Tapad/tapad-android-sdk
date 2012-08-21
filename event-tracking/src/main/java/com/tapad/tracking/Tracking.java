@@ -5,11 +5,13 @@ import android.content.SharedPreferences;
 import android.content.pm.ApplicationInfo;
 import android.content.pm.PackageManager;
 import android.preference.PreferenceManager;
-import android.provider.Settings;
+import android.text.TextUtils;
+import com.tapad.tracking.deviceidentification.*;
 import com.tapad.util.Logging;
 
-import java.math.BigInteger;
-import java.security.MessageDigest;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 import java.util.UUID;
 
 /**
@@ -28,10 +30,22 @@ public class Tracking {
 
     private static TrackingService service = null;
     private static String deviceId;
+    private static String typedDeviceIds;
+    private static IdentifierSource idCollector = new IdentifierSourceAggregator(defaultIdSources());
     private static DeviceIdentifier deviceIdLocator = new DeviceIdentifier() {
         @Override
         public String get() {
             return deviceId;
+        }
+
+        @Override
+        public String getTypedIds() {
+            return typedDeviceIds;
+        }
+
+        @Override
+        public boolean isOptedOut() {
+            return Tracking.isOptedOut();
         }
     };
 
@@ -42,11 +56,19 @@ public class Tracking {
      * <meta-data android:name="tapad.APP_ID" android:value="INSERT_APP_ID_HERE"/>
      * ...
      * </application>
+     * <p/>
+     * The default id sources are AndroidId, PhoneId, and WifiMac, but
+     * this can be configured to suit the developer's privacy policy through the AndroidManifest.xml:
+     * <p/>
+     * <application>
+     * <meta-data android:name="tapad.ID_SOURCES" android:value="AndroidId,PhoneId,WifiMac"/>
+     * ...
+     * </application>
      *
      * @param context a context reference
      */
     public static void init(Context context) {
-        init(context, null);
+        init(context, null, null);
     }
 
     /**
@@ -54,23 +76,25 @@ public class Tracking {
      * supplied value is null or consist only of white space, then the AndroidManifest.xml
      * values are used (@see #init(android.content.Context)).
      * <p/>
+     * If the idSources is null or empty, then the AndroidManifest.xml values are used (@see #init(android.content.Context)).
+     * <p/>
      * One of the initialization functions must be called before TrackingService.get().
      *
-     * @param context a context reference
-     * @param appId   the application identifier
+     * @param context   a context reference
+     * @param appId     the application identifier
+     * @param idSources a list of identifier sources to use to collect ids
      * @see #init(android.content.Context)
-     *
      */
-    public static void init(Context context, String appId) {
-        setupAPI(context, appId);
+    public static void init(Context context, String appId, List<IdentifierSource> idSources) {
+        setupAPI(context, appId, idSources);
         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(context);
 
-        // This event may have been sent by the InstallReferrerReceiver,
+        // The install event may have been sent by the InstallReferrerReceiver,
         // so first-run and install are not always sent at the same time.
-        if (!prefs.getBoolean(PREF_INSTALL_SENT, false)) {
-            get().onEvent(EVENT_INSTALL);
-            prefs.edit().putBoolean(PREF_INSTALL_SENT, true).commit();
-        }
+        // Since 3.x, the marketplace behavior has been to fire the INSTALL_REFERRER intent
+        // after first launch.  So we are leaving FIRST_RUN here and letting the InstallReferrerReceiver
+        // fire the INSTALL event.  Otherwise, we will either get two install events or one without the
+        // referrer value, which is useful for determining proper attribution.
         if (!prefs.getBoolean(PREF_FIRST_RUN_SENT, false)) {
             get().onEvent(EVENT_FIRST_RUN);
             prefs.edit().putBoolean(PREF_FIRST_RUN_SENT, true).commit();
@@ -80,7 +104,7 @@ public class Tracking {
     /**
      * Configures the API.
      */
-    protected static void setupAPI(Context context, String appId) {
+    protected static void setupAPI(Context context, String appId, List<IdentifierSource> idSources) {
         synchronized (Tracking.class) {
             if (service == null) {
 
@@ -93,11 +117,28 @@ public class Tracking {
                     }
                 }
 
-                deviceId = PreferenceManager.getDefaultSharedPreferences(context).getString(PREF_TAPAD_DEVICE_ID, null);
-                if (deviceId == null) {
-                    deviceId = getHashedDeviceId(context);
-                    PreferenceManager.getDefaultSharedPreferences(context).edit().putString(PREF_TAPAD_DEVICE_ID, deviceId).commit();
+                if (idSources == null || idSources.isEmpty()) {
+                    try {
+                        ApplicationInfo ai = context.getPackageManager().getApplicationInfo(context.getPackageName(), PackageManager.GET_META_DATA);
+                        String[] idSourceClasses = ai.metaData.getString("tapad.ID_SOURCES").split(",");
+                        idSources = new ArrayList<IdentifierSource>();
+                        for (String className : idSourceClasses) {
+                            try {
+                                idSources.add((IdentifierSource) Class.forName("com.tapad.tracking.deviceidentification." + className.trim()).newInstance());
+                            } catch (Exception e) {
+                                Logging.warn("Tracking", "Unable to instantiate identifier source: " + className.trim());
+                            }
+                        }
+                        if (idSources.isEmpty()) {
+                            idSources = defaultIdSources();
+                        }
+                    } catch (Exception e) {
+                        idSources = defaultIdSources();
+                    }
                 }
+
+                idCollector = new IdentifierSourceAggregator(idSources);
+                collectIds(context);
 
                 service = new TrackingServiceImpl(
                         new EventDispatcher(new EventResource(appId, deviceIdLocator, DeviceInfo.getUserAgent(context)))
@@ -107,23 +148,46 @@ public class Tracking {
     }
 
     /**
-     * Gets the Android system ID hashed with MD5 and formatted as a 32 byte hexadecimal number.
-     * This is the same device identifier that most of the ad networks use.
-     * <p/>
-     * Falls back to generating a UDID in the (extremely) unlikely case that MD5 is not available
-     * or (more likely) that the ANDROID_ID setting becomes a privileged op.
+     * Creates the default identifier sources to use should none be specified.
+     * The default is all.
      *
-     * @return the device identifier
+     * @return the list of default id sources
      */
-    private static String getHashedDeviceId(Context context) {
-        String deviceId = Settings.System.getString(context.getContentResolver(), Settings.System.ANDROID_ID);
-        try {
-            MessageDigest digest = MessageDigest.getInstance("MD5");
-            digest.update(deviceId.getBytes(), 0, deviceId.length());
-            return String.format("%032X", new BigInteger(1, digest.digest()));
-        } catch (Exception e) {
-            Logging.warn("Tracking", "Error retrieving device identifier, using a UDID instead.");
-            return UUID.randomUUID().toString();
+    private static List<IdentifierSource> defaultIdSources() {
+        return Arrays.asList(new AndroidId(), new PhoneId(), new WifiMac());
+    }
+
+    /**
+     * Uses the idCollector to generate ids, if any.  This is not done if the user is already opted out through
+     * preferences.  If there were no ids generated, a random UUID is generated and persisted through
+     * preferences.
+     *
+     * @param context context object used to find/collect/persist ids
+     */
+    private static void collectIds(Context context) {
+        deviceId = PreferenceManager.getDefaultSharedPreferences(context).getString(PREF_TAPAD_DEVICE_ID, null);
+        // do not attempt to collect any ids if the device is opted out
+        if (OPTED_OUT_DEVICE_ID.equals(deviceId)) {
+            typedDeviceIds = null;
+        } else {
+            // collect ids
+            List<TypedIdentifier> ids = idCollector.get(context);
+            // if no ids
+            if (ids.isEmpty()) {
+                // generate and store a new id if there is no saved id
+                if (deviceId == null) {
+                    Logging.warn("Tracking", "Unable to retrieve any device identifiers, using a UUID instead.");
+                    deviceId = UUID.randomUUID().toString();
+                    PreferenceManager.getDefaultSharedPreferences(context).edit().putString(PREF_TAPAD_DEVICE_ID, deviceId).commit();
+                }
+                // ensure that typed id is set to null
+                typedDeviceIds = null;
+            } else {
+                // set the deviceId to the first typed id, but don't save it in prefs because that space is reserved for the generated UUID/Opt-out
+                deviceId = ids.get(0).getValue();
+                // set the typedDeviceIds to the full string representation
+                typedDeviceIds = TextUtils.join(",", ids);
+            }
         }
     }
 
@@ -136,6 +200,7 @@ public class Tracking {
      */
     public static void optOut(Context context) {
         deviceId = OPTED_OUT_DEVICE_ID;
+        typedDeviceIds = null;
         PreferenceManager.getDefaultSharedPreferences(context)
                 .edit()
                 .putString(PREF_TAPAD_DEVICE_ID, deviceId)
@@ -148,11 +213,12 @@ public class Tracking {
      * @param context a context reference
      */
     public static void optIn(Context context) {
-        deviceId = getHashedDeviceId(context);
+        // we clear the saved preferences and run through id collection logic once more
         PreferenceManager.getDefaultSharedPreferences(context)
                 .edit()
-                .putString(PREF_TAPAD_DEVICE_ID, deviceId)
+                .remove(PREF_TAPAD_DEVICE_ID)
                 .commit();
+        collectIds(context);
     }
 
     private static void assertInitialized() {

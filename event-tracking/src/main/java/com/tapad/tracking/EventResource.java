@@ -22,6 +22,7 @@ class EventResource {
     private static final String RESOURCE_URL = "https://analytics.tapad.com/app/event";
     private static final String PARAM_APP_ID = "app_id";
     private static final String PARAM_DEVICE_ID = "device_id";
+    private static final String PARAM_TYPED_DEVICE_ID = "typed_device_id";
     private static final String PARAM_EVENT_ID = "action_id";
     private static final String PARAM_EXTRA_PARAMS = "extra_params";
 
@@ -45,7 +46,12 @@ class EventResource {
     protected void post(Event e) throws IOException {
         List<NameValuePair> params = new ArrayList<NameValuePair>();
         params.add(new BasicNameValuePair(PARAM_APP_ID, appId));
-        params.add(new BasicNameValuePair(PARAM_DEVICE_ID, deviceId.get()));
+        if (deviceId.isOptedOut() || deviceId.getTypedIds() == null) {
+            params.add(new BasicNameValuePair(PARAM_DEVICE_ID, deviceId.get()));
+        }
+        else {
+            params.add(new BasicNameValuePair(PARAM_TYPED_DEVICE_ID, deviceId.getTypedIds()));
+        }
         params.add(new BasicNameValuePair(PARAM_EVENT_ID, e.getId()));
         if (e.getExtraParameters() != null)
             params.add(new BasicNameValuePair(PARAM_EXTRA_PARAMS, e.getExtraParameters()));

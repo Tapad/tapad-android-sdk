@@ -17,6 +17,13 @@
             android:text=""
             />
 
+    <TextView
+            android:id="@+id/typed_device_id"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:text=""
+            />
+
     <Button android:id="@+id/custom_event"
             android:text="Send custom event"
             android:layout_width="fill_parent"
