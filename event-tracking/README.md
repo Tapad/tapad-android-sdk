@@ -80,6 +80,8 @@ For the latter:
 
 ### 1.0.2
 * Fix an issue where Android phones would identify themselves as Android tablets by not sending an UA containing "mobile"
+* Install events will only be sent by the InstallReferrerReceiver
+* Multi/Typed id support implemented for ANDROID_ID, Phone ID, and WIFI MAC
 
 ### 1.0.1
 * Change device identification to harmonize with ad networks
