@@ -111,7 +111,11 @@ public class Tracking {
                 if (appId == null || appId.trim().length() == 0) {
                     try {
                         ApplicationInfo ai = context.getPackageManager().getApplicationInfo(context.getPackageName(), PackageManager.GET_META_DATA);
-                        appId = ai.metaData.getString("tapad.APP_ID");
+                        Object appIdMetaData = ai.metaData.get("tapad.APP_ID");
+                        if (appIdMetaData == null)
+                            throw new RuntimeException("tapad.APP_ID is not set in AndroidManifest.xml");
+                        else
+                            appId = appIdMetaData.toString();
                     } catch (Exception e) {
                         throw new RuntimeException("No app id specified and unable to read tapad.APP_ID from AndroidManifest.xml", e);
                     }
