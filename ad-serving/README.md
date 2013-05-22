@@ -26,7 +26,7 @@ To navigate to the instructions:
 5. Click the Show me the code button
 6. If not selected by default, please select the Android App tab to see the relevant instructions
 
-Place the following line of code in your startup activity's onCreate():
+To guarantee proper initialization regardless of which Activity is started, please place the following line of code in your Application's `onCreate()`:
 
 ```java
   com.tapad.adserving.AdServing.init(this);

@@ -14,6 +14,7 @@
     <application
             android:icon="@drawable/logo"
             android:label="TestApp"
+            android:name="com.tapad.sample.MainApplication"
             >
 
         <!-- Tapad Tracking application id. Not required if Swappit Property ID is specified -->

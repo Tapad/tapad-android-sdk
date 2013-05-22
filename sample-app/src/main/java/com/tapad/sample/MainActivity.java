@@ -19,9 +19,10 @@ public class MainActivity extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.main);
 
-        AdServing.init(this);
-        // AdServing.init calls the Tracking init code. If you are just using the Tracking API,
-        // just call Tracking.init(this) instead of the above.
+        // If your app has only one Activity or can guarantee that this one is always started before any other
+        // Activities, then you can initialize the SDKs here instead of declaring an Application
+        // AdServing.init(this); // if you are using the AdServing SDK or AdServing + EventTracking SDKs
+        // Tracking.init(this); // if you are only using the EventTracking SDK
 
         deviceId = (TextView) findViewById(R.id.device_id);
         typedDeviceId = (TextView) findViewById(R.id.typed_device_id);

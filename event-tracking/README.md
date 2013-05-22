@@ -13,7 +13,7 @@ Add the following `uses-permission` and `meta-data` tags to your `AndroidManifes
     </application>
 ```
 
-Place the following line of code in you startup activity `onCreate()`:
+To guarantee proper initialization regardless of which Activity is started, please place the following line of code in your Application's `onCreate()`:
 
 ```java
   com.tapad.tracking.Tracking.init(this);
