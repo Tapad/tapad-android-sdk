@@ -3,7 +3,7 @@
           package="com.tapad.sample"
           android:versionCode="6"
           android:versionName="1.1">
-    <uses-sdk android:minSdkVersion="8"/>
+    <uses-sdk android:minSdkVersion="4"/>
     <uses-permission android:name="android.permission.INTERNET"/>
     <!-- Required if specifying PhoneId as one of the tapad.ID_SOURCES -->
     <uses-permission android:name="android.permission.READ_PHONE_STATE"/>
