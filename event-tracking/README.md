@@ -78,6 +78,11 @@ For the latter:
 
 ## Changelog
 
+### 1.0.3
+* Build user agent value without usage of WebView
+* MIT License terms added
+* Allow integral tapad.APP_ID metadata value
+
 ### 1.0.2
 * Fix an issue where Android phones would identify themselves as Android tablets by not sending an UA containing "mobile"
 * Install events will only be sent by the InstallReferrerReceiver
